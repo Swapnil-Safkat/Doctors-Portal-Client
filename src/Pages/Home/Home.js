@@ -8,6 +8,7 @@ import InfoCards from './InfoCards';
 import Services from './Services';
 import Contact from './Contact';
 import Testimonial from './Testimonial';
+import Footer from '../../Components/Footer';
 
 const Home = () => {
   const cardData = [
@@ -45,7 +46,8 @@ const Home = () => {
       <Services className='p-4' />
       <MakeAppointment />
       <Testimonial/>
-      <Contact/>
+      <Contact />
+      <Footer/>
     </div>
   );
 };

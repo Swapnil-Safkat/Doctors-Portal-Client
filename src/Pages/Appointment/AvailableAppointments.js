@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import BookingModal from './BookingModal';
 import ServiceCard from './ServiceCard';
+import hostLink from '../../Components/host';
 
 const AvailableAppointments = ({ date }) => {
   const [services, setServices] = useState([]);
   const [treatment, setTreatment] = useState({});
 
   useEffect(() => {
-    fetch('services.json').then(res => res.json()).then(data => setServices(data));
+    fetch(`${hostLink()}services`).then(res => res.json()).then(data => setServices(data));
   }
     , [])
 

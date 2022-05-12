@@ -10,16 +10,15 @@ import './App.css';
 function App() {
   return (
     <div data-theme="doctor_portal_theme">
-      <div className=' text-accent min-h-screen flex flex-col justify-between'>
+      <div className=' text-accent min-h-screen flex flex-col items-center justify-between'>
         <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/appointment' element={<Appointment />} />
-        </Routes>
-        <Footer />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/appointment' element={<Appointment />} />
+          </Routes>
       </div>
     </div>
   );
