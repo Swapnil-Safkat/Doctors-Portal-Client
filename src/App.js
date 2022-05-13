@@ -1,11 +1,11 @@
 import Appointment from './Pages/Appointment/Appointment';
 import { Route, Routes } from 'react-router-dom';
-import Footer from './Components/Footer';
 import Navbar from './Components/Navbar';
 import Login from './Pages/Login/Login';
 import About from './Pages/About/About';
 import Home from './Pages/Home/Home';
 import './App.css';
+import SignUp from './Pages/Login/SignUp';
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
             <Route path='/home' element={<Home />} />
             <Route path='/about' element={<About />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
             <Route path='/appointment' element={<Appointment />} />
           </Routes>
       </div>
