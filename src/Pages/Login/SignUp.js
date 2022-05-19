@@ -1,17 +1,32 @@
-import React from 'react';
-import { useSignInWithGoogle, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { async } from '@firebase/util';
+import React, { useEffect } from 'react';
+import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useUpdateProfile, useSendEmailVerification } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../Components/Loading';
 import auth from '../../Firebase.init';
+import useTokens from '../../Hooks/useTokens';
 
 const SignUp = () => {
   const { register, formState: { errors }, handleSubmit } = useForm();
   const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] = useSignInWithGoogle(auth);
   const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
-  if (loading || loadingGoogle) { return <Loading /> }
-
-  const onSubmit = data => createUserWithEmailAndPassword(data.email, data.password);
+  const [sendEmailVerification, sending] = useSendEmailVerification(auth);
+  const [updateProfile, updating, errorUpdate] = useUpdateProfile(auth);
+  const navigate = useNavigate();
+  const [token] = useTokens(user || userGoogle);
+  if (loading || loadingGoogle || updating || sending) { return <Loading /> }
+  if (token) {
+    navigate('/appointment')
+  }
+  const onSubmit = async data => {
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await sendEmailVerification();
+    toast('Email Verification Mail Send. Please Check Your Email!')
+    await updateProfile({ displayName: data.name });
+  }
   const inputClass = `input w-full mt-2 border-2 border-gray-300`;
   return (
     <div className='w-11/12 sm:w-3/4 md:w-2/4 lg:w-1/4 my-auto'>
@@ -67,14 +82,15 @@ const SignUp = () => {
 
           <p className='text-[12px] font-semibold ml-2  hover:cursor-pointer hover:underline'>Forgot Password?</p>
           <input disabled={loading} type="submit" value='Sign Up' className="btn modal-action w-full hover:text-white" />
-          <p className='text-[12px] text-red-600 text-center font-semibold my-2'>{error && error?.message}</p>
+          <p className='text-[12px] text-red-600 text-center font-semibold my-2'>{(error || errorUpdate) && (error?.message || errorUpdate?.message)}</p>
         </form>
-      
-      <Link to='/login'><h1 className='text-[14px] text-center font-semibold ml-2 my-2 hover:cursor-pointer hover:underline'>Already Have an Account? <span  className='text-secondary'>Login</span></h1></Link>
+
+        <Link to='/login'><h1 className='text-[14px] text-center font-semibold ml-2 my-2 hover:cursor-pointer hover:underline'>Already Have an Account? <span className='text-secondary'>Login</span></h1></Link>
         <div className="divider px-4 text-base mt-4">OR</div>
         <button disabled={loadingGoogle} onClick={() => { signInWithGoogle() }} className="btn btn-outline p-0 w-full">CONTINUE WITH GOOGLE</button>
         <p className='text-[12px] text-red-600 text-center font-semibold my-2'>{errorGoogle && errorGoogle?.message}</p>
       </div>
+      <ToastContainer />
     </div>
   );
 };
