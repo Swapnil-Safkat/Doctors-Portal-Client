@@ -32,7 +32,7 @@ const MyAppointments = () => {
       <div class="overflow-x-auto w-11/12 mx-auto">
         {appointments.length > 0 && <h1 className='text-2xl my-4'>My Appointments</h1>}
         {
-          appointments.length > 0 ? <table class="table table-zebra w-full font-serif">
+          appointments.length > 0 ? <table class="table table-zebra w-full shadow-lg">
             <thead>
               <tr>
                 <th></th>
