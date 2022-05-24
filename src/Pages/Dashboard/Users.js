@@ -5,7 +5,7 @@ import hostLink from '../../Components/host';
 import Loading from '../../Components/Loading';
 
 const Users = () => {
-  const { data: users, isLoading, isError ,refetch} = useQuery('user', () => fetch(`${hostLink()}user`, {
+  const { data: users, isLoading, isError, refetch } = useQuery('user', () => fetch(`${hostLink()}user`, {
     method: 'GET',
     headers: {
       authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -17,9 +17,21 @@ const Users = () => {
       headers: {
         authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
-    }).then(res => res.json()).then(data => {
+    }).then(res => {
+      if (res.status === 403) {
+        toast.error('Failed to make an admin');
+      }
+      return res.json()
+    }).then(data => {
       console.log(data);
-    data.acknowledge &&toast.success("Made User Admin!")})
+      if (data.modifiedCount > 0) {
+        toast.success("Made User Admin!");
+        refetch();
+      } else {
+        
+      }
+
+    })
   };
   if (isLoading) return <Loading />
   if (isError) return <h1>Error Occurred</h1>
