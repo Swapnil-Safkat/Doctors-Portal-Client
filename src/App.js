@@ -15,6 +15,7 @@ import Home from './Pages/Home/Home';
 import './App.css';
 import Users from './Pages/Dashboard/Users';
 import RequiredAdmin from './Components/RequiredAdmin';
+import AddDoctor from './Pages/Dashboard/AddDoctor';
 function App() {
   return (
     <div data-theme="doctor_portal_theme">
@@ -32,6 +33,7 @@ function App() {
             <Route path='reviews' element={<MyReviews />} />
             <Route path='history' element={<MyHistory />} />
             <Route path='users' element={<RequiredAdmin><Users /></RequiredAdmin>} />
+            <Route path='addDoctor' element={<RequiredAdmin><AddDoctor /></RequiredAdmin>} />
           </Route>
         </Routes>
         <ToastContainer

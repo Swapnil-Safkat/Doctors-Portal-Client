@@ -1,5 +1,4 @@
-import { async } from '@firebase/util';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useUpdateProfile, useSendEmailVerification } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
